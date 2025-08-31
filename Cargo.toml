@@ -1,0 +1,13 @@
+[package]
+name = "well-winget"
+version = "0.0.1"
+edition = "2024"
+
+[dependencies]
+gio = "0.21.1"
+glib = "0.21.1"
+gtk4 = "0.10.0"
+gtk4-layer-shell = "0.6.1"
+webkit6 = "0.5.0"
+
+# (REQUIRED) sudo pacman -S webkitgtk-6.0
