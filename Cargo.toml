@@ -2,6 +2,7 @@
 name = "well-winget"
 version = "0.0.1"
 edition = "2024"
+license = "MIT"
 
 [dependencies]
 gio = "0.21.1"
