@@ -1,6 +1,6 @@
-well-winget — Un widget Wayland con WebKit
+# well-winget — Un widget Wayland con WebKit
 
-Un microcontenedor en Rust para interfaces web en Wayland. Renderiza una ventana de capa (layer-shell) con fondo transparente usando GTK4 + WebKitGTK 6, para que puedas construir tu propia barra, lanzador o panel en la web y mostrarlo como overlay nativo en tu compositor.
+Un microcontenedor en Rust para interfaces web en Wayland. Echo con GTK4 + WebKitGTK 6, para que puedas construir tu propia barra, lanzador o panel en la web y mostrarlo como overlay nativo en tu compositor.
 
 Esta pensado para que sea ultra-flexible con el poder de la web para crear interfaces rápidas, animadas y totalmente personalizadas.
 
@@ -19,18 +19,24 @@ Esta pensado para que sea ultra-flexible con el poder de la web para crear inter
 - GTK4.
 - Rust y Cargo.
 
-Ejemplo (Arch):
+Ejemplo en (Arch):
 ```
 sudo pacman -S webkitgtk-6.0 gtk4
 ```
-
-## Instalación
-Clona y compila en modo release para mejor rendimiento:
+En (Debian/Ubuntu):
 ```
-git clone <URL_DEL_REPO>
-cd linux-winget
+sudo apt install libwebkit2gtk-6.0-dev libgtk-4-dev
+```
+
+
+## Instalación y compilación
+Clona y compila en modo release para generar el binario:
+```
+git clone https://github.com/luis-codex/well-winget
+cd well-winget
 cargo build --release
 ```
+El binario queda en `target/release/well-winget`.
 
 ## Inicio rápido
 1) Arranca tu UI local (ejemplo estático con Python):
@@ -56,11 +62,30 @@ pushd ui >/dev/null
 python -m http.server 2002
 ```
 
-2) En otra terminal, ejecuta el widget apuntando al puerto por defecto `2002`:
+2) En otra terminal, usa el binario compilado (recomendado) o `cargo run` (desarrollo):
 ```
+# Binario compilado
+APP_PORT=2002 ./target/release/well-winget
+
+# (Opcional) Desarrollo
 APP_PORT=2002 cargo run --release
 ```
 Al pasar el ratón por el borde asignado, la ventana se desliza y muestra tu UI.
+
+## Uso del binario
+- Ejecuta el binario y apunta `APP_PORT` al puerto de tu UI.
+- Ejemplo:
+```
+APP_PORT=2002 ./target/release/well-winget
+```
+- Instalación local opcional para tenerlo en PATH:
+```
+install -Dm755 target/release/well-winget ~/.local/bin/well-winget
+```
+Luego ejecútalo simplemente con:
+```
+APP_PORT=2002 well-winget
+```
 
 ## Cómo funciona
 - El binario crea una ventana por monitor y la ancla a un borde (por defecto, inferior) mediante layer-shell.
@@ -76,10 +101,6 @@ Actualmente, la configuración es mínima y se controla por:
   - `BAR_POS`: `Top` o `Bottom`.
   - `PEEK`: píxeles visibles cuando está oculto.
   - `ANIM_MS`: duración aproximada de la animación.
-
-## Comparativa rápida
-- waybar: muy eficiente y nativo, pero limitado a su sistema de módulos. well-winget permite UIs web arbitrarias con animaciones y estilos avanzados.
-- rofi: excelente para lanzadores. Aquí puedes construir uno propio con tipografías, previews y lógica compleja sin salir de la web.
 
 ## Rendimiento y buenas prácticas
 - Mantén la UI ligera (evita bundles enormes, usa SSR/streaming si aplica).
